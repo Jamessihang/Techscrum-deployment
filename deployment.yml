@@ -56,3 +56,29 @@ spec:
   ports:
     - protocol: TCP
       port: 8000
+---
+apiVersion: networking/v1
+kind: Ingress
+metadata:
+  name: alb-ingress
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: instance
+    alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:ap-southeast-2:527423341490:certificate/7527d578-50e5-4d4e-9005-4cadea5d9e7e"
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTP": 8000}, {"HTTPS":443}]'
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+    alb.ingress.kubernetes.io/healthcheck-port: /api/v1/users
+    alb.ingress.kubernetes.io/success-codes: "200-399"
+spec:
+  rules:
+    - host: api.jamestechscrum.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: techscrum
+                port:
+                  number: 8000
