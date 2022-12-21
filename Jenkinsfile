@@ -20,19 +20,20 @@ pipeline {
 	                }
 	            }                 
 	                         
-	        stage('eks update-kubeconfig'){
-	              steps {
-	                  withAWS(credentials: AWS_CRED, region: 'ap-southeast-2'){
-	                    sh 'aws eks --region ap-southeast-2 update-kubeconfig --name techscrum'}
-	                }
-	            }
-	        
-	        stage('eks deployment update'){
-	               steps{
-	                   withAWS(credentials: AWS_CRED, region: 'ap-southeast-2'){                    
-	                    sh 'kubectl apply -f deployment.yaml'	                   
-	                   }
-	                }
-	            } 
+	        stage('Update deployment file') {
+                steps{
+				  script {
+                     catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                       withCredentials([usernamePassword(credentialsId: 'Github', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                        //def encodedPassword = URLEncoder.encode("$GIT_PASSWORD",'UTF-8')
+                        sh "git config user.email jamessihang@hotmail.com"
+                        sh "git config user.name Jamessihang"
+                        //sh "git switch master"
+                        sh "cat deployment.yaml"
+                        sh "sed -i 's+527423341490.dkr.ecr.ap-southeast-2.amazonaws.com/techscrum.*+527423341490.dkr.ecr.ap-southeast-2.amazonaws.com/techscrum:${DOCKERTAG}+g' deployment.yaml"
+                        sh "cat deployment.yaml"
+                        sh "git add ."
+                        sh "git commit -m 'Done by Jenkins Job changemanifest: ${env.BUILD_NUMBER}'"
+                        sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${GIT_USERNAME}/kubernetesmanifest.git HEAD:main"}
         }
     }
