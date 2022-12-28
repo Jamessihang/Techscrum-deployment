@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: techscrum-backend
-        image: 527423341490.dkr.ecr.ap-southeast-2.amazonaws.com/techscrum:14
+        image: 527423341490.dkr.ecr.ap-southeast-2.amazonaws.com/techscrum:latest
         ports:
         - containerPort: 8000 
           protocol: TCP
