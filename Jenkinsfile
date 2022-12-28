@@ -7,17 +7,8 @@ pipeline {
                     checkout scm
                    }
                 }
-
-            stage('update deployment file') {
-	              steps{  
-	                  script {
-	                    sh "sed -i 's+527423341490.dkr.ecr.ap-southeast-2.amazonaws.com/techscrum.*+527423341490.dkr.ecr.ap-southeast-2.amazonaws.com/techscrum:${DOCKERTAG}+g' deployment.yaml"
-	                  
-	                  }
-	                }
-	            }                 
-	                         
-	        stage('Update deployment file') {
+                     
+	        stage('update deployment file') {
                 steps{
 				         script {
                      catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
