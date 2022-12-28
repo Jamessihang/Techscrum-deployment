@@ -26,12 +26,12 @@ pipeline {
                         sh "git config user.email jamessihang@hotmail.com"
                         sh "git config user.name Jamessihang"
                         //sh "git switch master"
-                        sh "cat deployment.yaml"
+                        sh "cat deployment.yml"
                         sh "sed -i 's+527423341490.dkr.ecr.ap-southeast-2.amazonaws.com/techscrum.*+527423341490.dkr.ecr.ap-southeast-2.amazonaws.com/techscrum:${DOCKERTAG}+g' deployment.yaml"
-                        sh "cat deployment.yaml"
+                        sh "cat deployment.yml"
                         sh "git add ."
                         sh "git commit -m 'Done by Jenkins Job changemanifest: ${env.BUILD_NUMBER}'"
-                        sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${GIT_USERNAME}/{deployment.git HEAD:main"}
+                        sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${GIT_USERNAME}/Techscrum-deployment.git HEAD:main"
                     }
                   }
             }
