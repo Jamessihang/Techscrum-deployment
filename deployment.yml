@@ -1,7 +1,7 @@
 ---
 apiVersion: v1
 kind: Namespace
-metedata:
+metadata:
   name: backend
   labels:
      monitoring: prometheus
