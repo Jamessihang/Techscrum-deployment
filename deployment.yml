@@ -67,7 +67,7 @@ spec:
 apiVersion: networking/v1
 kind: Ingress
 metadata:
-  name: alb-ingress
+  name: Ingress
   annotations:
     kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing
