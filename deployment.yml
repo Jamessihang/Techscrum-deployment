@@ -55,7 +55,6 @@ metadata:
   namespace: backend
   labels:
     app.kubernetes.io/name: techscrum
-    operated-prometheus: "true"
 spec:
   selector:
     app.kubernetes.io/name: techscrum
